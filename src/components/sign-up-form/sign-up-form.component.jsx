@@ -16,6 +16,7 @@ const defaultFormFields = {
 
 const SignUpForm = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
+  const [errorMessage, setErrorMessage] = useState("");
   const { displayName, email, password, confirmPassword } = formFields;
 
   const handleChange = (event) => {
@@ -42,9 +43,19 @@ const SignUpForm = () => {
       resetFormFields();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
-        alert("Cannot create user email already in use!");
+        setErrorMessage("Cannot create user email already in use!");
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 3000);
       } else {
-        alert("User encountered an error ", error.code, error.message);
+        setErrorMessage(
+          "User encountered an error ",
+          error.code,
+          error.message
+        );
+        setTimeout(() => {
+          setErrorMessage("");
+        }, 3000);
       }
     }
   };
@@ -57,6 +68,9 @@ const SignUpForm = () => {
     <div className="sign-up-container">
       <h2>Don't have an account?</h2>
       <span>Sign Up with your Email and Password</span>
+      <span className={`${errorMessage.length ? "error-message" : ""}`}>
+        {errorMessage}
+      </span>
       <form onSubmit={handleSubmit}>
         <FormInput
           label="Display Name"

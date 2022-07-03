@@ -1,4 +1,4 @@
-.sign-up-container {
+.sign-in-container {
   display: flex;
   flex-direction: column;
   width: 23.75rem;
@@ -13,5 +13,10 @@
     background-color: #ff4646;
     margin-top: 0.5rem;
     border-radius: 2px;
+  }
+
+  .buttons-container {
+    display: flex;
+    justify-content: space-between;
   }
 }
