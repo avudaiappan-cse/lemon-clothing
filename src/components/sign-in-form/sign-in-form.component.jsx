@@ -3,9 +3,14 @@ import {
   signInAuthUserWithEmailAndPassword,
   signInWithGooglePopUp,
 } from "../../utils/firebase/firebase.utils";
-import Button from "../button/button.component";
+import Button, { BUTTON_TYPE_CLASSES } from "../button/button.component";
 import FormInput from "../form-input/form-input.component";
-import "./sign-in-form.styles.scss";
+import {
+  ButtonsContainer,
+  ErrorMessage,
+  SignInContainer,
+  SignInTitle,
+} from "./sign-in-form.styles";
 
 const defaultFormFields = {
   email: "",
@@ -65,12 +70,10 @@ const SignInForm = () => {
     setFormFields(defaultFormFields);
   };
   return (
-    <div className="sign-in-container">
-      <h2>Already have an account</h2>
+    <SignInContainer>
+      <SignInTitle>Already have an account</SignInTitle>
       <span>Sign In with your email and password</span>
-      <span className={`${errorMessage.length ? "error-message" : ""}`}>
-        {errorMessage}
-      </span>
+      {errorMessage.length > 0 && <ErrorMessage>{errorMessage}</ErrorMessage>}
       <form onSubmit={handleSubmit}>
         <FormInput
           label="Email"
@@ -88,14 +91,18 @@ const SignInForm = () => {
           onChange={handleChange}
           value={password}
         />
-        <div className="buttons-container">
+        <ButtonsContainer>
           <Button type="submit">Sign In</Button>
-          <Button type="button" onClick={signInWithGoogle} buttonType="google">
+          <Button
+            type="button"
+            onClick={signInWithGoogle}
+            buttonType={BUTTON_TYPE_CLASSES.google}
+          >
             Google Sign In
           </Button>
-        </div>
+        </ButtonsContainer>
       </form>
-    </div>
+    </SignInContainer>
   );
 };
 

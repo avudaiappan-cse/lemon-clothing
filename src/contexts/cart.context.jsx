@@ -50,7 +50,6 @@ export const CartProvider = ({ children }) => {
       (total, cartItem) => total + cartItem.price * 76 * cartItem.quantity,
       0
     );
-    console.log(total);
     setTotalPrice(total);
     setCartCount(newCartCount);
   }, [cartItems]);
