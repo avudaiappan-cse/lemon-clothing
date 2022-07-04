@@ -9,10 +9,9 @@ import {
   EmptyMessage,
 } from "./cart-dropdown.styles";
 
-const CartDropDown = (props) => {
+const CartDropDown = () => {
   const { cartItems, setIsCartOpen, isCartOpen } = useContext(CartContext);
   const navigate = useNavigate();
-  console.log(cartItems);
 
   const goToCheckOutPage = () => {
     setIsCartOpen(!isCartOpen);
