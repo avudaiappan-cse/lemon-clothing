@@ -13,7 +13,12 @@ const CartItem = ({ cartItem }) => {
       <ItemDetails>
         <Name>{name}</Name>
         <span>
-          {quantity} x &#8377; {price * 76}
+          {quantity} x{" "}
+          {new Intl.NumberFormat(
+            "en-IN",
+            { style: "currency", currency: "INR" },
+            { maximumSignificantDigits: 3 }
+          ).format(price * 76)}
         </span>
       </ItemDetails>
     </CartItemContainer>

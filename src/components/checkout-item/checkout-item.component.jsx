@@ -1,5 +1,10 @@
-import { useContext } from "react";
-import { CartContext } from "../../contexts/cart.context";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItemToCart,
+  removeItemFromCart,
+  clearCartItem,
+} from "../../store/cart/cart.action";
+import { selectCartItems } from "../../store/cart/cart.selector";
 import {
   Arrow,
   CheckOutItemContainer,
@@ -13,18 +18,19 @@ import {
 } from "./checkout-item.styles";
 
 const CheckOutItem = ({ product }) => {
+  const cartItems = useSelector(selectCartItems);
+
   const { name, price, quantity, imageUrl } = product;
-  const { addItemToCart, removeItemToCart, clearItemFromCart } =
-    useContext(CartContext);
+  const dispatch = useDispatch();
   const incrementItem = () => {
-    addItemToCart(product);
+    dispatch(addItemToCart(cartItems, product));
   };
   const decrementItem = () => {
-    removeItemToCart(product);
+    dispatch(removeItemFromCart(cartItems, product));
   };
 
   const clearItem = () => {
-    clearItemFromCart();
+    dispatch(clearCartItem(cartItems, product));
   };
 
   return (
@@ -39,7 +45,13 @@ const CheckOutItem = ({ product }) => {
         <Arrow onClick={incrementItem}>&#10095;</Arrow>
       </Quantity>
 
-      <Price>&#8377; {price * 76}</Price>
+      <Price>
+        {new Intl.NumberFormat(
+          "en-IN",
+          { style: "currency", currency: "INR" },
+          { maximumSignificantDigits: 3 }
+        ).format(price * 76)}
+      </Price>
       <RemoveButton onClick={clearItem}>&#10005;</RemoveButton>
     </CheckOutItemContainer>
   );

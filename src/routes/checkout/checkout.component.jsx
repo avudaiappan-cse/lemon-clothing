@@ -1,6 +1,10 @@
-import { useContext } from "react";
+import { useSelector } from "react-redux";
 import CheckOutItem from "../../components/checkout-item/checkout-item.component";
-import { CartContext } from "../../contexts/cart.context";
+import PaymentForm from "../../components/payment-form/payment-form.component";
+import {
+  selectCartItems,
+  selectTotalPrice,
+} from "../../store/cart/cart.selector";
 import {
   CheckOutContainer,
   CheckOutHeader,
@@ -9,7 +13,8 @@ import {
 } from "./checkout.styles";
 
 const CheckOut = () => {
-  const { cartItems, totalPrice } = useContext(CartContext);
+  const cartItems = useSelector(selectCartItems);
+  const totalPrice = useSelector(selectTotalPrice);
   return (
     <CheckOutContainer>
       <CheckOutHeader>
@@ -31,7 +36,15 @@ const CheckOut = () => {
       </CheckOutHeader>
       {cartItems &&
         cartItems.map((item) => <CheckOutItem key={item.id} product={item} />)}
-      <Total>Total: &#8377; {totalPrice}</Total>
+      <Total>
+        Total:{" "}
+        {new Intl.NumberFormat(
+          "en-IN",
+          { style: "currency", currency: "INR" },
+          { maximumSignificantDigits: 3 }
+        ).format(totalPrice)}
+      </Total>
+      <PaymentForm />
     </CheckOutContainer>
   );
 };
